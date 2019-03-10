@@ -4,7 +4,7 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 15
-  productGUID: 00000000000000000000000000000000
+  productGUID: 3be3f7045f4d94e4e86e0b3ce8fcfc03
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -633,7 +633,7 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   cloudProjectId: 4b0fc987-832e-4e43-8904-c0c4ef3d6a3e
   framebufferDepthMemorylessMode: 0
-  projectName: 
+  projectName: InnerSpace-TestProject
   organizationId: victorocha11
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
