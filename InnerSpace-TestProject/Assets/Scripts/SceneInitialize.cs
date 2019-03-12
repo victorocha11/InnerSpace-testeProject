@@ -6,23 +6,37 @@ using UnityEngine.UI;
 
 public class SceneInitialize : MonoBehaviour
 {
-    private string prefabPath = "Corridors/";
     private string jsonPath = "Json/";
     private Slider loadingSlider;
     private Text tipText;
+    private Text progressText;
+    private GameObject canvas;
+    private float timeFollowCamera;
 
     private void Awake()
     {
-        var json = Resources.Load<TextAsset>( jsonPath + "json");
-        var tipList = JsonUtility.FromJson<TipModel>(json.text);
+        
     }
 
     void Start()
     {
         loadingSlider = GameObject.Find("LoadingSlider").GetComponent<Slider>();
         tipText = GameObject.Find("TipText").GetComponent<Text>();
-        
+        progressText = GameObject.Find("ProgressText").GetComponent<Text>();
+        canvas = GameObject.Find("MainCanvas");
+        timeFollowCamera = Time.time;
+        var json = Resources.Load<TextAsset>(jsonPath + "json");
+        var tipList = JsonUtility.FromJson<TipModel>(json.text);
+    }
 
+    private void Update()
+    {
+        if (timeFollowCamera + 0.5f < Time.time)
+        {
+            var camPos = Camera.main.transform.position + Camera.main.transform.forward * 9;
+            canvas.transform.position = camPos;
+            timeFollowCamera = Time.time;
+        }
     }
 
     public void LoadScene(int sceneIndex)
@@ -36,10 +50,12 @@ public class SceneInitialize : MonoBehaviour
         while (!operation.isDone)
         {
             float progress = Mathf.Clamp01(operation.progress / 0.9f);
+            progressText.text = progress * 100f + "%";
             loadingSlider.value = progress;
             Debug.Log(progress);
 
             yield return null;
         }
+
     }
 }
