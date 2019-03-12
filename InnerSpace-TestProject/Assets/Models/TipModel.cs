@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Models
 {
+    [Serializable]
     public class TipModel
     {
-        public List<string> Tips { get; set; }
+        private List<string> _tips;
+        public List<string> Tips { get { return _tips; } set { _tips = value; } }
     }
 }

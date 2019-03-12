@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class SceneInitialize : MonoBehaviour
 {
-    private string jsonPath = "Json/";
+    private string jsonPath = "Json/tips";
     private Slider loadingSlider;
     private Text tipText;
     private Text progressText;
@@ -25,8 +25,9 @@ public class SceneInitialize : MonoBehaviour
         progressText = GameObject.Find("ProgressText").GetComponent<Text>();
         canvas = GameObject.Find("MainCanvas");
         timeFollowCamera = Time.time;
-        var json = Resources.Load<TextAsset>(jsonPath + "json");
-        var tipList = JsonUtility.FromJson<TipModel>(json.text);
+        var json = Resources.Load<TextAsset>(jsonPath);
+        var t = System.Text.Encoding.ASCII.GetString(json.bytes);
+        var tipList = JsonUtility.FromJson<TipModel>(t);
     }
 
     private void Update()
