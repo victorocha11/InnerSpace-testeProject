@@ -1,4 +1,5 @@
 ﻿using Models;
+using Newtonsoft.Json;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,25 +13,33 @@ public class SceneInitialize : MonoBehaviour
     private Text progressText;
     private GameObject canvas;
     private float timeFollowCamera;
+    private float timeChangeTip;
+    private TipModel tipList;
 
     private void Awake()
     {
+        LoadTipInfo();
         
     }
 
     void Start()
     {
-        loadingSlider = GameObject.Find("LoadingSlider").GetComponent<Slider>();
-        tipText = GameObject.Find("TipText").GetComponent<Text>();
-        progressText = GameObject.Find("ProgressText").GetComponent<Text>();
-        canvas = GameObject.Find("MainCanvas");
-        timeFollowCamera = Time.time;
-        var json = Resources.Load<TextAsset>(jsonPath);
-        var t = System.Text.Encoding.ASCII.GetString(json.bytes);
-        var tipList = JsonUtility.FromJson<TipModel>(t);
+        LoadObjects();
+
+        ChangeTip();
     }
 
     private void Update()
+    {
+        UpdateMenuPosition();
+        if (timeChangeTip + 3f < Time.time)
+        {
+            ChangeTip();
+            timeChangeTip = Time.time;
+        }
+    }
+
+    private void UpdateMenuPosition()
     {
         if (timeFollowCamera + 0.5f < Time.time)
         {
@@ -59,4 +68,26 @@ public class SceneInitialize : MonoBehaviour
         }
 
     }
+
+    private void LoadObjects()
+    {
+        loadingSlider = GameObject.Find("LoadingSlider").GetComponent<Slider>();
+        tipText = GameObject.Find("TipText").GetComponent<Text>();
+        progressText = GameObject.Find("ProgressText").GetComponent<Text>();
+        canvas = GameObject.Find("MainCanvas");
+        timeChangeTip = timeFollowCamera = Time.time;
+    }
+
+    private void LoadTipInfo()
+    {
+        var json = Resources.Load<TextAsset>(jsonPath);
+        var t = System.Text.Encoding.ASCII.GetString(json.bytes);
+        tipList = JsonConvert.DeserializeObject<TipModel>(t);
+    }
+
+    private void ChangeTip()
+    {
+        tipText.text = tipList.Tips[UnityEngine.Random.Range(0, tipList.Tips.Count - 1)];
+    }
+
 }

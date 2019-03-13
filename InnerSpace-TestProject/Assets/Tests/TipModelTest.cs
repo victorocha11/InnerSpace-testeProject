@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Models
+namespace Tests
 {
     [Serializable]
-    public class TipModel
+    public class TipModelTest
     {
         public List<string> Tips { get; set; }
     }
